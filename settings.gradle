@@ -1,0 +1,22 @@
+rootProject.name = 'spring-server'
+
+include 'server:config'
+project(':server:config').projectDir = file('server/config')
+
+include 'server:discovery'
+project(':server:discovery').projectDir = file('server/discovery')
+
+include 'server:eureka'
+project(':server:eureka').projectDir = file('server/eureka')
+
+include 'service:common'
+project(':service:common').projectDir = file('service/common')
+
+include 'service:restaurant'
+project(':service:restaurant').projectDir = file('service/restaurant')
+
+include 'service:soccer'
+project(':service:soccer').projectDir = file('service/soccer')
+
+include 'service:user'
+project(':service:user').projectDir = file('service/user')
