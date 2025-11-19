@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.4.1'
+	id 'org.springframework.boot' version '3.5.7'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -28,8 +28,7 @@ bootJar.enabled = true
 jar.enabled = false
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-
+	// Spring Cloud Gateway는 reactive이므로 WebFlux 사용 (starter-web 제거)
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'

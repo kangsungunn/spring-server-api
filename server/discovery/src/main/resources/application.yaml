@@ -1,3 +1,78 @@
+server:
+  port: 8080
+
 spring:
   application:
-    name: discovery
+    name: discovery-gateway
+
+  main:
+    web-application-type: reactive
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    config:
+      enabled: false
+      import-check:
+        enabled: false
+    gateway:
+      routes:
+        # Soccer Service 통합 라우팅
+        - id: soccer-service
+          uri: lb://soccer-service
+          predicates:
+            - Path=/api/soccer/**
+          filters:
+            - StripPrefix=2  # /api/soccer/players → /players
+        
+        # Players 리소스 라우팅
+        - id: soccer-players
+          uri: lb://soccer-service
+          predicates:
+            - Path=/api/players/**
+          filters:
+            - StripPrefix=1  # /api/players → /players
+        
+        # Teams 리소스 라우팅
+        - id: soccer-teams
+          uri: lb://soccer-service
+          predicates:
+            - Path=/api/teams/**
+          filters:
+            - StripPrefix=1  # /api/teams → /teams
+        
+        # Stadiums 리소스 라우팅
+        - id: soccer-stadiums
+          uri: lb://soccer-service
+          predicates:
+            - Path=/api/stadiums/**
+          filters:
+            - StripPrefix=1  # /api/stadiums → /stadiums
+        
+        # Schedules 리소스 라우팅
+        - id: soccer-schedules
+          uri: lb://soccer-service
+          predicates:
+            - Path=/api/schedules/**
+          filters:
+            - StripPrefix=1  # /api/schedules → /schedules
+        
+        # Search 엔드포인트 라우팅 (우선순위 높게 설정)
+        - id: soccer-search
+          uri: lb://soccer-service
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - StripPrefix=1  # /api/search → /search
+          order: 0  # 최우선순위 설정
+      
+      # CORS 설정은 Java Config 클래스에서 처리
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+instance:
+  prefer-ip-address: false

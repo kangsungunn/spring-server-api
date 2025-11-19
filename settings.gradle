@@ -20,3 +20,6 @@ project(':service:soccer').projectDir = file('service/soccer')
 
 include 'service:user'
 project(':service:user').projectDir = file('service/user')
+
+include 'service:place'
+project(':service:place').projectDir = file('service/place')
